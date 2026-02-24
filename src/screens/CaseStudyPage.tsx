@@ -147,12 +147,12 @@ const styles = StyleSheet.create({
     },
     caseImage: {
         width: '100%',
-        height: 400,
+        height: 600,
         resizeMode: 'contain',
     },
     imagePlaceholder: {
         width: '100%',
-        height: 400,
+        height: 600,
         backgroundColor: colors.surface,
         borderRadius: 16,
         borderWidth: 1,
