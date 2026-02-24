@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
-import React, { useState, useRef } from 'react';
-import { StyleSheet, ScrollView, View } from 'react-native';
+import React, { useState, useRef, useEffect } from 'react';
+import { StyleSheet, ScrollView, View, Platform } from 'react-native';
 import {
   useFonts,
   Outfit_700Bold,
@@ -16,7 +16,7 @@ import { SkillsSection } from './src/screens/SkillsSection';
 import { PortfolioSection } from './src/screens/PortfolioSection';
 import { FooterSection } from './src/screens/FooterSection';
 import { CaseStudyPage } from './src/screens/CaseStudyPage';
-import { globalStyles } from './src/theme';
+import { globalStyles, colors } from './src/theme';
 
 export type PageType = 'home' | 'case-study';
 
@@ -26,6 +26,12 @@ export default function App() {
   const [portfolioY, setPortfolioY] = useState(0);
   const [footerY, setFooterY] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
+
+  useEffect(() => {
+    if (Platform.OS === 'web') {
+      document.body.style.backgroundColor = colors.background;
+    }
+  }, []);
 
   const [fontsLoaded] = useFonts({
     Outfit_700Bold,
@@ -73,7 +79,7 @@ export default function App() {
   return (
     <View style={globalStyles.container}>
       <StatusBar style="light" />
-      <ScrollView ref={scrollViewRef} stickyHeaderIndices={[0]}>
+      <ScrollView ref={scrollViewRef} stickyHeaderIndices={[0]} contentContainerStyle={{ flexGrow: 1 }}>
         <Header onNavigate={navigateTo} onProjectsClick={scrollToPortfolio} onContactClick={scrollToFooter} />
 
         {activePage === 'home' ? (
