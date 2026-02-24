@@ -26,7 +26,7 @@ export const HeroSection = ({ onNavigate, onProjectsClick }: HeroProps) => {
                     </Text>
                     <Text variant="h1" style={[styles.title, isMobile && styles.textCenter]}>
                         Diretor de UI/UX &{'\n'}
-                        <Text variant="h1" color={colors.primary}>React Developer</Text>
+                        <Text variant="h1" style={[styles.title, isMobile && styles.textCenter]} color={colors.primary}>React Developer</Text>
                     </Text>
                     <Text variant="body" style={[styles.description, isMobile && styles.textCenter]}>
                         Transformando ideias em experiências digitais incríveis através de design estratégico e código limpo.
@@ -79,6 +79,7 @@ const styles = StyleSheet.create({
     },
     title: {
         lineHeight: 56,
+        fontSize: 42,
     },
     description: {
         maxWidth: 500,
