@@ -1,9 +1,9 @@
-import React from 'react';
-import { StyleSheet, View, useWindowDimensions } from 'react-native';
+import React, { useEffect } from 'react';
+import { StyleSheet, View, useWindowDimensions, Image } from 'react-native';
 import { Container } from '../components/Container';
 import { Text } from '../components/Text';
 import { FadeInView } from '../components/FadeInView';
-import Animated, { useAnimatedStyle, useSharedValue, withSpring } from 'react-native-reanimated';
+import Animated, { useAnimatedStyle, useSharedValue, withSpring, withRepeat, withTiming, Easing } from 'react-native-reanimated';
 import { colors, spacing } from '../theme';
 import { Platform } from 'react-native';
 
@@ -15,9 +15,29 @@ const SKILLS = [
 export const SkillsSection = () => {
     const { width } = useWindowDimensions();
     const isMobile = width < 768;
+    const rotation = useSharedValue(0);
+
+    useEffect(() => {
+        rotation.value = withRepeat(
+            withTiming(360, { duration: 8000, easing: Easing.linear }),
+            -1
+        );
+    }, []);
+
+    const spinningStyle = useAnimatedStyle(() => {
+        return {
+            transform: [{ rotate: `${rotation.value}deg` }]
+        };
+    });
 
     return (
         <Container style={styles.container}>
+            {!isMobile && (
+                <Animated.Image
+                    source={require('../assets/develop-turn.png')}
+                    style={[styles.spinningImage, spinningStyle]}
+                />
+            )}
             <View style={styles.content}>
                 <FadeInView style={styles.header}>
                     <Text variant="h3" color={colors.primary} align={isMobile ? 'center' : 'auto'}>Minhas Habilidades</Text>
@@ -67,6 +87,17 @@ const styles = StyleSheet.create({
     content: {
         alignItems: 'center',
         gap: spacing.xl,
+    },
+    spinningImage: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        marginTop: -60,
+        marginRight: -40,
+        width: 140,
+        height: 140,
+        opacity: 0.9,
+        zIndex: 10,
     },
     header: {
         alignItems: 'center',

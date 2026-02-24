@@ -22,8 +22,11 @@ export const FooterSection = () => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.infoBlock}>
-                        <Text variant="body" style={styles.label}>Telefone</Text>
-                        <TouchableOpacity onPress={() => Linking.openURL('tel:+5515996791095')}>
+                        <Text variant="body" style={styles.label}>WhatsApp</Text>
+                        <TouchableOpacity onPress={() => {
+                            const url = 'https://wa.me/5515996791095?text=Olá,%20vi%20seu%20portfólio%20e%20gostaria%20de%20conversar%20sobre%20um%20projeto!';
+                            Platform.OS === 'web' ? window.open(url, '_blank') : Linking.openURL(url);
+                        }}>
                             <Text variant="h3">+55 15 99679-1095</Text>
                         </TouchableOpacity>
                     </View>
@@ -70,6 +73,7 @@ const styles = StyleSheet.create({
         backgroundColor: colors.background,
     },
     content: {
+        justifyContent: 'center',
         alignItems: 'center',
         gap: spacing.xl,
         marginBottom: spacing.xxl,

@@ -9,9 +9,11 @@ import { PageType } from '../../App';
 
 interface HeaderProps {
     onNavigate?: (page: PageType) => void;
+    onProjectsClick?: () => void;
+    onContactClick?: () => void;
 }
 
-export const Header = ({ onNavigate }: HeaderProps) => {
+export const Header = ({ onNavigate, onProjectsClick, onContactClick }: HeaderProps) => {
     return (
         <View style={styles.wrapper}>
             <Container>
@@ -24,14 +26,12 @@ export const Header = ({ onNavigate }: HeaderProps) => {
 
                     <View style={styles.nav}>
                         <TouchableOpacity onPress={() => onNavigate?.('home')}><Text variant="body" style={styles.navLink}>Início</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => onNavigate?.('home')}><Text variant="body" style={styles.navLink}>Sobre</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={onContactClick}><Text variant="body" style={styles.navLink}>Sobre</Text></TouchableOpacity>
                         <TouchableOpacity onPress={() => onNavigate?.('home')}><Text variant="body" style={styles.navLink}>Serviços</Text></TouchableOpacity>
-                        <TouchableOpacity onPress={() => onNavigate?.('projects')}><Text variant="body" style={styles.navLink}>Meus Projetos</Text></TouchableOpacity>
+                        <TouchableOpacity onPress={onProjectsClick}><Text variant="body" style={styles.navLink}>Meus Projetos</Text></TouchableOpacity>
                     </View>
 
-                    <Button title="Contato" variant="outline" style={styles.contactBtn} onPress={() => {
-                        // Poderia rolar para baixo, mas para focar na navegação:
-                    }} />
+                    <Button title="Contato" variant="outline" style={styles.contactBtn} onPress={onContactClick} />
                 </View>
             </Container>
         </View>

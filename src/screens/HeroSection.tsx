@@ -10,9 +10,10 @@ import { PageType } from '../../App';
 
 interface HeroProps {
     onNavigate?: (page: PageType) => void;
+    onProjectsClick?: () => void;
 }
 
-export const HeroSection = ({ onNavigate }: HeroProps) => {
+export const HeroSection = ({ onNavigate, onProjectsClick }: HeroProps) => {
     const { width } = useWindowDimensions();
     const isMobile = width < 768; // Definição simples de break point para mobile
 
@@ -31,7 +32,7 @@ export const HeroSection = ({ onNavigate }: HeroProps) => {
                         Transformando ideias em experiências digitais incríveis através de design estratégico e código limpo.
                     </Text>
                     <View style={[styles.actions, isMobile && styles.actionsMobile]}>
-                        <Button title="Meus Projetos" onPress={() => onNavigate?.('projects')} />
+                        <Button title="Meus Projetos" onPress={onProjectsClick} />
                         <Button
                             title="Download CV"
                             variant="outline"

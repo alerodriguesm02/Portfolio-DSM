@@ -15,13 +15,16 @@ import { ServicesSection } from './src/screens/ServicesSection';
 import { SkillsSection } from './src/screens/SkillsSection';
 import { PortfolioSection } from './src/screens/PortfolioSection';
 import { FooterSection } from './src/screens/FooterSection';
-import { ProjectsPage } from './src/screens/ProjectsPage';
+import { CaseStudyPage } from './src/screens/CaseStudyPage';
 import { globalStyles } from './src/theme';
 
-export type PageType = 'home' | 'projects';
+export type PageType = 'home' | 'case-study';
 
 export default function App() {
   const [activePage, setActivePage] = useState<PageType>('home');
+  const [selectedCase, setSelectedCase] = useState<any>(null);
+  const [portfolioY, setPortfolioY] = useState(0);
+  const [footerY, setFooterY] = useState(0);
   const scrollViewRef = useRef<ScrollView>(null);
 
   const [fontsLoaded] = useFonts({
@@ -39,24 +42,56 @@ export default function App() {
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   }
 
+  const navigateToCase = (caseData: any) => {
+    setSelectedCase(caseData);
+    setActivePage('case-study');
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  }
+
+  const scrollToPortfolio = () => {
+    if (activePage !== 'home') {
+      setActivePage('home');
+      setTimeout(() => {
+        scrollViewRef.current?.scrollTo({ y: portfolioY, animated: true });
+      }, 100);
+    } else {
+      scrollViewRef.current?.scrollTo({ y: portfolioY, animated: true });
+    }
+  }
+
+  const scrollToFooter = () => {
+    if (activePage !== 'home') {
+      setActivePage('home');
+      setTimeout(() => {
+        scrollViewRef.current?.scrollTo({ y: footerY, animated: true });
+      }, 100);
+    } else {
+      scrollViewRef.current?.scrollTo({ y: footerY, animated: true });
+    }
+  }
+
   return (
     <View style={globalStyles.container}>
       <StatusBar style="light" />
       <ScrollView ref={scrollViewRef} stickyHeaderIndices={[0]}>
-        <Header onNavigate={navigateTo} />
+        <Header onNavigate={navigateTo} onProjectsClick={scrollToPortfolio} onContactClick={scrollToFooter} />
 
         {activePage === 'home' ? (
           <>
-            <HeroSection onNavigate={navigateTo} />
+            <HeroSection onNavigate={navigateTo} onProjectsClick={scrollToPortfolio} />
             <ServicesSection />
             <SkillsSection />
-            <PortfolioSection />
+            <View onLayout={(e) => setPortfolioY(e.nativeEvent.layout.y)}>
+              <PortfolioSection onCaseSelect={navigateToCase} />
+            </View>
           </>
-        ) : (
-          <ProjectsPage />
-        )}
+        ) : activePage === 'case-study' && selectedCase ? (
+          <CaseStudyPage caseData={selectedCase} onBack={() => navigateTo('home')} />
+        ) : null}
 
-        <FooterSection />
+        <View onLayout={(e) => setFooterY(e.nativeEvent.layout.y)}>
+          <FooterSection />
+        </View>
       </ScrollView>
     </View>
   );
