@@ -66,7 +66,7 @@ export const CaseStudyPage = ({ caseData, onBack }: CaseStudyPageProps) => {
 
                 {caseData.image ? (
                     <FadeInView delay={200} direction="up" style={styles.imageContainer}>
-                        <Image source={caseData.image} style={styles.caseImage} />
+                        <Image source={caseData.image} style={[styles.caseImage, isMobile && styles.caseImageMobile]} />
                     </FadeInView>
                 ) : (
                     <FadeInView delay={200} direction="up" style={styles.imagePlaceholder}>
@@ -142,13 +142,18 @@ const styles = StyleSheet.create({
         borderColor: colors.border,
     },
     imageContainer: {
-        width: '100%',
+        width: '100vw',
+        marginLeft: 'calc(-50vw + 50%)',
         marginVertical: spacing.lg,
     },
     caseImage: {
         width: '100%',
-        height: 600,
+        height: 300,
         resizeMode: 'contain',
+    },
+    caseImageMobile: {
+        height: 400,
+        resizeMode: 'cover',
     },
     imagePlaceholder: {
         width: '100%',
